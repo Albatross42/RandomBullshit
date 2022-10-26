@@ -1,20 +1,6 @@
 <template>
   <b-container fluid class="bv-example-row">
-    <b-row>
-      <div>
-        <h3>Import XLSX</h3>
-        <input type="file" @change="onChange" />
-        <xlsx-read :file="file">
-          <xlsx-json>
-            <template #default="{collection}">
-              <div>
-                {{ collection }}
-              </div>
-            </template>
-          </xlsx-json>
-        </xlsx-read>
-      </div>
-    </b-row>
+    <b-row>Title</b-row>
     <b-row>
       <!-- Guidlines -->
       <b-col style="border:1px solid #0000FF;">
@@ -39,8 +25,6 @@
 <script>
 import Vue from 'vue';
 import VCalendar from 'v-calendar';
-import { XlsxRead, XlsxJson } from '/node_modules/vue-xlsx/dist/vue-xlsx.es.js';
-
 
 // Use v-calendar & v-date-picker components
 Vue.use(VCalendar, {
@@ -49,13 +33,10 @@ Vue.use(VCalendar, {
 
 export default {
   name: 'App',
-  components: {
-    XlsxRead,
-    XlsxJson
-  },
-  data() {
+  components: {},
+    data() {
+
     return {
-      file: null,
       safetyCal: [
         {
           highlight: 'red',
@@ -64,18 +45,7 @@ export default {
       ],
     };
   },
-  methods: {
-    onChange(event) {
-      this.file = event.target.files ? event.target.files[0] : null;
-      newMethod();
-    },
-    newMethod() {
-      const test=this.file;
-      console.log(test);
-    }
-  }
 };
-
 </script>
 
 <style lang="scss">

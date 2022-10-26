@@ -1,0 +1,35 @@
+Journal:
+
+-The flexbox framework is kinda working even though the calendar is still larger than the container.
+-The calendar will be a usable option. Was able to make multiple and identified how to distribute differnt sets of data to each. I was also able to turn the day a color of desire. 
+-We know from sandbox testing that the vue-chartjs library is going to deliver what we need.
+-So my next task is to test the excel to json functionality. 
+  What will the data look like? 
+  How do we make it accessable to the app? 
+  Can we manipulate it once its arrived? before?
+the vue-json-excel library is for downloading to excel. Not what I'm looking for, but good to know it exists.
+Found some good information here https://www.folkstalk.com/2022/07/get-data-from-excel-using-vue-js-with-code-examples.html. Might be useful
+read-excel-file seems to be my solution. It has validation and can generate a 'custom' json which may be what I need to manipulate it to the format the graphs and calendars need.
+This one doesn't work anymore, but may have at some point. https://codesandbox.io/s/nervous-montalcini-w3qhy?file=/src/App.vue
+https://stackoverflow.com/questions/61138711/vue-js-excel-to-json ???
+https://stackoverflow.com/questions/47186297/uncaught-referenceerror-xlsx-is-not-defined-on-drop-file ???
+https://codesandbox.io/s/sjs9g?file=/index.html ???
+good, but is going the wrong way ???
+https://forum.vuejs.org/t/convert-excel-into-json-and-then-send-json-with-axios-post/90408
+I think this is it - https://vue-xlsx.netlify.app/guide/#installation. Let's try more tm.
+
+
+Tasks:
+
+-Develope a JSON that stores calendar data. Write loop to populate the month. 
+-Responsive at small sizes.
+
+
+Notes:
+
+Resouces used to get the calenar up and running:
+https://bootstrap-vue.org/docs/components/layout
+https://vcalendar.io/layouts.html#full-width
+https://codesandbox.io/s/ll2orom14m?file=/src/main.js
+https://github.com/nathanreyes/v-calendar/issues/143
+
