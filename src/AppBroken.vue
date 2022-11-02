@@ -3,8 +3,8 @@
     <b-row>
       <div>
         <h3>Import XLSX</h3>
+        <input type="file" @change="onChange" />
         <xlsx-read :file="file">
-          <input type="file" @change="onChange" />
         </xlsx-read>
       </div>
     </b-row>
@@ -16,7 +16,6 @@
       <!-- Safety -->
       <b-col style="border:1px solid #0000FF;padding: 0px;">
         <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart ref="line" />
       </b-col>
       <!-- Quality -->
       <b-col style="border:1px solid #0000FF;padding: 0px;"></b-col>
@@ -29,8 +28,6 @@ import Vue from 'vue';
 import VCalendar from 'v-calendar';
 import { XlsxRead } from '/node_modules/vue-xlsx/dist/vue-xlsx.es.js';
 import * as XLSX from "xlsx/xlsx.mjs";
-import LineChart from './components/Line.vue';
-/*import computed from 'vue-chartjs';*/
 
 
 // Use v-calendar & v-date-picker components
@@ -41,8 +38,7 @@ Vue.use(VCalendar, {
 export default {
   name: 'App',
   components: {
-    XlsxRead,
-    LineChart,
+    XlsxRead
   },
   data() {
     return {
@@ -57,13 +53,9 @@ export default {
   },
   methods: {
     onChange(event) {
-
       this.file = event.target.files ? event.target.files[0] : null;
       var apple = this.file;
       const reader = new FileReader();
-      const chartInstance = this.$refs.line.$data.chartData.datasets[0].data[1]
-      const chartDataObject = this.$refs.line.$data.chartData.datasets[0]
-      console.log(chartInstance);
 
         /* Convert XLSX to JSON */
         reader.onload = (e) => {
@@ -72,64 +64,32 @@ export default {
           const wsname = wb.SheetNames[0];
           const ws = wb.Sheets[wsname];
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-          /* Attempts Include*/
-          /*console.log(this.safetyCal[0].highlight);
-          console.log(data[1][1]);*/
 
-          /* Populate the Calendar */
-          data.forEach((value, index ) => {
-            if (value[1] == 'yes') {
-              let NewCal = {
-                highlight: 'green',
-                dates: new Date(2022, 10, index),
-                }
-              this.safetyCal.push(NewCal);
-            } else if (value[1] == 'no') {
-              let NewCal = {
-                highlight: 'red',
-                dates: new Date(2022, 10, index),
-                }
-              this.safetyCal.push(NewCal);
-            }
-            if(index < 7) {
-              this.$refs.line.$data.chartData.datasets[0].data[index] = value[3]
-            }
+          console.log(data);
+          console.log(this.safetyCal[0].highlight);
+          console.log(data[1][1]);
 
-            
-          });
-          console.log(chartDataObject);
+        /* Populate the Calendar */
+        data.forEach((value, index ) => {
+          if (value[1] == 'yes') {
+            let NewCal = {
+              highlight: 'green',
+              dates: new Date(2022, 9, index),
+              }
+            this.safetyCal.push(NewCal);  
+          } else if (value[1] == 'no') {
+            let NewCal = {
+              highlight: 'red',
+              dates: new Date(2022, 9, index),
+              }
+            this.safetyCal.push(NewCal); 
+          }
+        });
+
         }
         reader.readAsBinaryString(apple);
     },
-  },
-  /*computed: {
-    chartData() {
-      return {
-      chartData: {
-        labels: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July'
-        ],
-        datasets: [
-          {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [20, 20, 20, 20, 20, 20, 20]
-          }
-        ]
-      },
-      chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
-    }
   }
-  }*/
 };
 
 </script>

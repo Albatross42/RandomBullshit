@@ -33,3 +33,13 @@ https://vcalendar.io/layouts.html#full-width
 https://codesandbox.io/s/ll2orom14m?file=/src/main.js
 https://github.com/nathanreyes/v-calendar/issues/143
 
+So I need to pull the data from the excel spreadsheet and push it into the graph array. 
+The way the object lays out is clearly defined in the syntax. 
+I should be able to change information within the object with the js.
+
+https://stackoverflow.com/questions/18119541/passing-this-object-as-argument-in-onchange-event
+https://stackoverflow.com/questions/70783058/changing-an-object-value-using-onchange-event
+
+consumer reports
+gieco
+athletic greens
