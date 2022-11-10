@@ -2,6 +2,7 @@
   <b-container fluid class="bv-example-row">
     <b-row>
       <div>
+        <h3>Import XLSX</h3>
         <xlsx-read :file="file">
           <input type="file" @change="onChange" />
         </xlsx-read>
@@ -9,45 +10,16 @@
     </b-row>
     <b-row>
       <!-- Guidlines -->
-      <b-col style="border:0px solid #0000FF;">
-        <h3 style="text-align:center;">Guidelines</h3>
-        <h5>Metric/Status</h5>
-        <p style="border:1px solid #000000;padding: 10px;"><span style="color:red">Red</span> = Somebody got Hurt. Ouch!<br><span style="color:green">Green</span> = All Good that Day</p>
-        <h5>Humidity</h5>
-        <p style="border:1px solid #000000;padding: 10px;">Notify Supervisor if humidity increases over 70%</p>
+      <b-col style="border:1px solid #0000FF;">
+      1 of 7
       </b-col>
       <!-- Safety -->
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
+      <b-col style="border:1px solid #0000FF;padding: 0px;">
         <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
-      </b-col>
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
-        <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
-      </b-col>
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
-        <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
-      </b-col>
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
-        <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
-      </b-col>
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
-        <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
+        <LineChart :chart-data="this.chartData" ref="line" />
       </b-col>
       <!-- Quality -->
-      <b-col style="border:0px solid #0000FF;padding: 20px;">
-        <h3 style="text-align:center;">Required Attendies:</h3>
-          <b-list-group>
-            <b-list-group-item>- <b>Loren Cochrun</b> (Engineer)</b-list-group-item>
-            <b-list-group-item >- <b>Shaun Lublink</b> (Lead Supe)</b-list-group-item>
-            <b-list-group-item>- <b>Jovy Ortiz</b> (New Supe)</b-list-group-item>
-            <b-list-group-item>- <b>Sokthea Lee</b> (Ole Pro)</b-list-group-item>
-            <b-list-group-item>- <b>Philip Coloso</b> (Ace Opperator)</b-list-group-item>
-          </b-list-group>
-      </b-col>
+      <b-col style="border:1px solid #0000FF;padding: 0px;"></b-col>
     </b-row>
   </b-container>
 </template>
@@ -125,7 +97,7 @@ export default {
           // console.log(chartDataObject);
           this.chartData.datasets = chartDataObject;
           console.log(this.chartData.datasets);
-          this.$refs.line.update();
+          this.$refs.line.updateChart()
         }
         reader.readAsBinaryString(apple);
     },

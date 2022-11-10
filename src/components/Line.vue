@@ -52,11 +52,11 @@ export default {
     },
     width: {
       type: Number,
-      default: 400
+      default: 200
     },
     height: {
       type: Number,
-      default: 400
+      default: 200
     },
     cssClasses: {
       default: '',
@@ -85,9 +85,9 @@ export default {
         ],
         datasets: [
           {
-            label: 'Data One',
+            label: 'CER02 Humidity',
             backgroundColor: '#f87979',
-            data: [40, 39, 10, 40, 39, 80, 40]
+            data: [45, 50, 55, 48, 60, 62, 66]
           }
         ]
       },

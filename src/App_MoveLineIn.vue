@@ -2,6 +2,7 @@
   <b-container fluid class="bv-example-row">
     <b-row>
       <div>
+        <h3>Import XLSX</h3>
         <xlsx-read :file="file">
           <input type="file" @change="onChange" />
         </xlsx-read>
@@ -9,45 +10,26 @@
     </b-row>
     <b-row>
       <!-- Guidlines -->
-      <b-col style="border:0px solid #0000FF;">
-        <h3 style="text-align:center;">Guidelines</h3>
-        <h5>Metric/Status</h5>
-        <p style="border:1px solid #000000;padding: 10px;"><span style="color:red">Red</span> = Somebody got Hurt. Ouch!<br><span style="color:green">Green</span> = All Good that Day</p>
-        <h5>Humidity</h5>
-        <p style="border:1px solid #000000;padding: 10px;">Notify Supervisor if humidity increases over 70%</p>
+      <b-col style="border:1px solid #0000FF;">
+      1 of 7
       </b-col>
       <!-- Safety -->
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
+      <b-col style="border:1px solid #0000FF;padding: 0px;">
         <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
-      </b-col>
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
-        <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
-      </b-col>
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
-        <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
-      </b-col>
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
-        <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
-      </b-col>
-      <b-col style="border:0px solid #0000FF;padding: 0px;">
-        <vc-calendar :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
+          <LineChartGenerator
+            :chart-options="chartOptions"
+            :chart-data="chartData"
+            :chart-id="chartId"
+            :dataset-id-key="datasetIdKey"
+            :plugins="plugins"
+            :css-classes="cssClasses"
+            :styles="styles"
+            :width="width"
+            :height="height"
+          />
       </b-col>
       <!-- Quality -->
-      <b-col style="border:0px solid #0000FF;padding: 20px;">
-        <h3 style="text-align:center;">Required Attendies:</h3>
-          <b-list-group>
-            <b-list-group-item>- <b>Loren Cochrun</b> (Engineer)</b-list-group-item>
-            <b-list-group-item >- <b>Shaun Lublink</b> (Lead Supe)</b-list-group-item>
-            <b-list-group-item>- <b>Jovy Ortiz</b> (New Supe)</b-list-group-item>
-            <b-list-group-item>- <b>Sokthea Lee</b> (Ole Pro)</b-list-group-item>
-            <b-list-group-item>- <b>Philip Coloso</b> (Ace Opperator)</b-list-group-item>
-          </b-list-group>
-      </b-col>
+      <b-col style="border:1px solid #0000FF;padding: 0px;"></b-col>
     </b-row>
   </b-container>
 </template>
@@ -57,8 +39,28 @@ import Vue from 'vue';
 import VCalendar from 'v-calendar';
 import { XlsxRead } from '/node_modules/vue-xlsx/dist/vue-xlsx.es.js';
 import * as XLSX from "xlsx/xlsx.mjs";
-import LineChart from './components/Line.vue'
+import { Line as LineChartGenerator } from 'vue-chartjs/legacy'
 
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  LinearScale,
+  CategoryScale,
+  PointElement
+} from 'chart.js'
+
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  LinearScale,
+  CategoryScale,
+  PointElement
+)
 
 // Use v-calendar & v-date-picker components
 Vue.use(VCalendar, {
@@ -69,7 +71,37 @@ export default {
   name: 'App',
   components: {
     XlsxRead,
-    LineChart,
+    LineChartGenerator,
+  },
+  props: {
+    chartId: {
+      type: String,
+      default: 'line-chart'
+    },
+    datasetIdKey: {
+      type: String,
+      default: 'label'
+    },
+    width: {
+      type: Number,
+      default: 400
+    },
+    height: {
+      type: Number,
+      default: 400
+    },
+    cssClasses: {
+      default: '',
+      type: String
+    },
+    styles: {
+      type: Object,
+      default: () => {}
+    },
+    plugins: {
+      type: Array,
+      default: () => []
+    }
   },
   data() {
     return {
@@ -80,7 +112,29 @@ export default {
           dates: new Date(2022, 9, 1),
         }
       ],
-      chartData: [],
+      
+      chartData: {
+        labels: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July'
+        ],
+        datasets: [
+          {
+            label: 'Data One',
+            backgroundColor: '#f87979',
+            data: [40, 39, 10, 40, 39, 80, 40]
+          }
+        ]
+      },
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     };
   },
   methods: {
@@ -90,7 +144,7 @@ export default {
       var apple = this.file;
       const reader = new FileReader();
       // const chartInstance = this.$refs.line.$data.chartData.datasets[0].data[1]
-      const chartDataObject = this.$refs.line.$data.chartData.datasets[0]
+      const chartDataObject = this.chartData.datasets[0]
       // console.log(chartInstance);
 
         /* Convert XLSX to JSON */
@@ -119,13 +173,13 @@ export default {
                 }
               this.safetyCal.push(NewCal);
             }
-            if (index < 7){this.$refs.line.$data.chartData.datasets[0].data[index] = value[3]}
+            if (index < 7){this.chartData.datasets[0].data[index] = value[3]}
             
           });
           // console.log(chartDataObject);
-          this.chartData.datasets = chartDataObject;
-          console.log(this.chartData.datasets);
-          this.$refs.line.update();
+          this.chartData = chartDataObject;
+          console.log(this.chartData);
+          this.chartData.line.updateChart()
         }
         reader.readAsBinaryString(apple);
     },
