@@ -39,6 +39,8 @@ I should be able to change information within the object with the js.
 
 https://stackoverflow.com/questions/18119541/passing-this-object-as-argument-in-onchange-event
 https://stackoverflow.com/questions/70783058/changing-an-object-value-using-onchange-event
+https://stackoverflow.com/questions/43728332/vue-chart-js-chart-is-not-updating-when-data-is-changing
+https://codesandbox.io/s/naughty-wave-yiq42?file=/src/components/ChartTest.vue // Too helpfull. May be good if i get desperate
 
 consumer reports
 gieco
