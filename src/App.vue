@@ -31,7 +31,7 @@
       <b-col style="border:0px solid #0000FF;padding: 10px;">
         <h3 style="background-color:#28A5F7; color:white;text-align:center;">SAFETY</h3>
         <vc-calendar :disabled-dates='{ weekdays: [1, 7] }' :attributes='safetyCal' is-expanded sm></vc-calendar>
-        <LineChart :chart-data="chartData" ref="line" />
+        <LineChart v-if="loaded" :chart-data="chartData" ref="line" />
         <LineChart :chart-data="chartData" ref="line" />
         <LineChart :chart-data="chartData" ref="line" />
       </b-col>
@@ -132,7 +132,7 @@ import LineChart from './components/Line.vue'
 
 // Use v-calendar & v-date-picker components
 Vue.use(VCalendar, {
-  componentPrefix: 'vc'  // Use <vc-calendar /> instead of <v-calendar />
+  componentPrefix: 'vc'
 });
 
 export default {
@@ -151,13 +151,12 @@ export default {
           disabledDates: { weekdays: [1, 7] },
         }
       ],
-      // loaded: false,
+      loaded: false,
       chartData: [],
     };
   },
   methods: {
     onChange(event) {
-      // this.loaded = true
       this.file = event.target.files ? event.target.files[0] : null;
       var apple = this.file;
       const reader = new FileReader();
@@ -172,9 +171,6 @@ export default {
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         const data = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: false });
-        // const calDataObject = this.$refs.line.$data.chartData.datasets[0];
-        const chartDataObject = this.$refs.line.$data.chartData.datasets[0];
-
 
         /* Populate the Calendar */
         // index =+ 1 to make the corresponding day reflect properly
@@ -202,26 +198,27 @@ export default {
             // console.log(value, index);
           }
           if (index < 32) {
-            // this.$refs.line.$data.chartData.datasets[0].data[index] = value[0];
-            // calDataObject.data[index] = value[2];
-            chartDataObject.data[index] = value[2];
+            this.$refs.line.$data.chartData.datasets[0].data[index].y = value[2];
+            // chartDataObject.$data[index] = value[2];
+            // this.$refs.line.$data.chartData.datasets[0].data[0].y = 100;
           }
         });
-        this.chartData.datasets = chartDataObject;
-        // chart.update();
-        // console.log(this.safetyCal);
-        // console.log(this.safetyCal[0].highlight);
-        // console.log(data[1][2]);
-        // console.log(chart);
-        // console.log(this.chartData.datasets);
       }
       this.chartData.datasets = chartDataObject;
-      // chartInstance.updateChart();
+      console.log(chartDataObject);
+      this.loaded = true
       reader.readAsBinaryString(apple);
+      // this.chartData.datasets = chartDataObject;
+      // chartInstance.updateChart();
+      // chart.update();
+      // console.log(this.safetyCal);
+      // console.log(this.safetyCal[0].highlight);
+      // console.log(data[1][2]);
+      // console.log(chart);
+      // console.log(this.chartData.datasets);
     },
   }
 };
-
 </script>
 
 <style lang="scss">
